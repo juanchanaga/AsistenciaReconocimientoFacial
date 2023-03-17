@@ -6,11 +6,23 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Asistencia</title>
     
+    <!-- bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
+    <!-- Carga la biblioteca de cliente de Google API -->
+    <script
+        type="text/javascript"
+        src="https://apis.google.com/js/api.js"
+        async
+        defer
+        crossorigin="anonymous"
+        onload="this.onload=function(){};"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()"
+    ></script>
+
     <script defer src="face-api.min.js"></script>
-    <script defer src="script.js"></script>
+    <script defer type="module" src="main.js"></script>
     <style>
         body {
             margin: 0;
@@ -32,7 +44,7 @@
 <body>
     <div style="align-self: flex-start; width: 40%;" class="m-3">
         <div style="text-align: center;">
-            <button class="btn btn-primary" onclick="tomarAsistencia()">Tomar Asistencia</button>
+            <button id="tomarAsistencia" class="btn btn-primary">Tomar Asistencia</button>
         </div>
 
         <div class="rounded border mt-3">

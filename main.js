@@ -1,3 +1,6 @@
+import { fotos1 } from "./fotos/fotos.js";
+import { API_KEY, CLIENT_ID, SPREADSHEET_ID, SCOPE } from "./modules/const.js";
+
 const video = document.getElementById('video');
 let container = document.createElement('div');
 const registrar = document.getElementById('registrarAsistencia');
@@ -6,6 +9,9 @@ const codigo = document.getElementById('codigo');
 const documento = document.getElementById('documento');
 const hora = document.getElementById('hora');
 const taller = document.getElementById('taller');
+const tomarAsistenciaButton = document.querySelector("#tomarAsistencia");
+const registrarAsistenciaButton = document.querySelector("#registrarAsistencia");
+let datosAsistencia = {};
 
 Promise.all([
     faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
@@ -13,12 +19,31 @@ Promise.all([
     faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
 ]).then(startVideo())
 
-function tomarAsistencia() {
+tomarAsistenciaButton.onclick = (event) => {
+    event.preventDefault();
+    datosAsistencia = {};
     video.classList.remove("d-none");
 }
 
-function llenarDatos(name) {
+registrarAsistenciaButton.onclick = (event) => {
+    event.preventDefault();
+
+    const params = {
+        spreadSheetId: SPREADSHEET_ID,
+        range: "Hoja1",
+        valueInputOption: "USER_ENTERED",
+        insertDataOption: "INSERT_ROWS",
+    }
+
+    const valueRangeBody = {
+        majorDimension: "ROWS",
+        values: "hola",
+    }
+}
+
+function llenarDatos(user) {
     const date = new Date;
+    
     const tiempo = ("0" + date.getDate()).slice(-2) + "/" +
     ("0" + (date.getMonth()+1)).slice(-2) + "/" +
     date.getFullYear() + " " +
@@ -26,8 +51,20 @@ function llenarDatos(name) {
     ("0" + date.getMinutes()).slice(-2) + ":" +
     ("0" + date.getSeconds()).slice(-2);
 
-    nombre.innerText = name;
+    const attendant = fotos1.find(foto => foto.nombre === user);
+
+    nombre.innerText = attendant.nombre;
+    codigo.innerText = attendant.codigo;
+    documento.innerText = attendant.nroDocumento;
     hora.innerHTML = tiempo;
+    taller.innerText = attendant.taller1;
+
+    datosAsistencia.nombre = attendant.nombre;
+    datosAsistencia.codigo = attendant.codigo;
+    datosAsistencia.documento = attendant.nroDocumento;
+    datosAsistencia.hora = tiempo;
+    datosAsistencia.taller = attendant.taller1;
+
 }
 
 async function startVideo(){
@@ -59,15 +96,14 @@ async function startVideo(){
 }
 
 function loadLabeledImages() {
-    const labels = ['Juan Chanaga', 'Sonny Cacua'];
     return Promise.all(
-        labels.map(async label => {
-            const descriptions = [];
-            const img = await faceapi.fetchImage(`/fotos/${label}/1.jpg`);
+        fotos1.map(async foto => {
+            const descriptions =[];
+            const img = await faceapi.fetchImage(foto.foto);
             const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
             descriptions.push(detections.descriptor);
 
-            return new faceapi.LabeledFaceDescriptors(label, descriptions);
+            return new faceapi.LabeledFaceDescriptors(foto.nombre, descriptions);
         })
     )
 }
