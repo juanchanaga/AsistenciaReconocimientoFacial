@@ -11,18 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
     <!-- Carga la biblioteca de cliente de Google API -->
-    <script
-        type="text/javascript"
-        src="https://apis.google.com/js/api.js"
-        async
-        defer
-        crossorigin="anonymous"
-        onload="this.onload=function(){};"
-        onreadystatechange="if (this.readyState === 'complete') this.onload()"
-    ></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
 
     <script defer src="face-api.min.js"></script>
     <script defer type="module" src="main.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -31,12 +24,38 @@
             height: 100vh;
             display: flex;
             align-items: center;
+            background-image: url("/fotos/SIICLogo.png");
+            background-position: left bottom;
+            background-repeat: no-repeat;
+            background-size: 15%;
+            background-attachment: fixed;
+        }
+
+        .fondo-derecho{
+            transform: scaleX(-1);
+            height: 100%;
+            z-index: -1;
+            position: fixed;
+            top: 0;
+            right: 0;
         }
 
         canvas {
             position: absolute;
             top: 0;
             left: 0;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
         }
     </style>
 
@@ -66,10 +85,158 @@
         </div>
 
         <div style="text-align: center;">
-            <button id="registrarAsistencia" class="mt-3 btn btn-danger disabled">Registrar Asistencia</button>
+            <button id="registrarAsistencia" class="mt-3 btn btn-success disabled mx-4">Registrar Asistencia</button>
+            <button id="registrarEstudiante" class="mt-3 btn btn-secondary mx-4">Registrar Estudiante</button>
+
         </div>
 
     </div>
-    <video id="video" width="720" height="560" autoplay muted class="d-none"></video>
+        <img alt="fondo-derecho" src="/fotos/FONDOSIIC.png" class="fondo-derecho"/>
+        <video id="video" width="720" height="560" autoplay muted class="d-none"></video>
+
+        <div id="formulario" style="align-self: flex-start; width: 40%;" class="mt-5 pt-4 mx-5 d-none">
+            <form id="formulario-registro" class="d-flex flex-column align-items-start">
+                <label for="nombre" style="font-weight: bold;">Nombre:</label>
+                <input style="width: 70%;" type="text" id="nombre" name="nombre">
+              
+                <label for="codigo" style="font-weight: bold;">Código Estudiante:</label>
+                <input style="width: 70%;" type="text" id="codigo" name="codigo">
+              
+                <label for="documento" style="font-weight: bold;">Número de Documento:</label>
+                <input style="width: 70%;" type="number" id="documento" name="documento"><br>
+              
+                <label for="talleres" style="font-weight: bold;">Talleres</label><br>
+
+                <label for="talleres" style="font-weight: bold;">Jueves AM</label>
+
+                <div>
+                    <div>
+                        <input type="checkbox" id="J-AM-1" name="taller" value="Suturas basicas J-AM">
+                        <label for="J-AM-1" class="mx-2">Suturas Básicas</label>
+                        <input type="checkbox" id="J-AM-2" name="taller" value="Trauma de torax J-AM">
+                        <label for="J-AM-2" class="mx-2">Trauma de Tórax</label>
+                        <input type="checkbox" id="J-AM-3" name="taller" value="Inmovilizaciones J-AM">
+                        <label for="J-AM-3" class="mx-2">Inmovilizaciones</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="J-AM-4" name="taller" value="Intubacion Rapida J-AM">
+                        <label for="J-AM-4" class="mx-2">Intubación Rápida</label>
+                        <input type="checkbox" id="J-AM-5" name="taller" value="RCP Basico J-AM">
+                        <label for="J-AM-5" class="mx-2">RCP Básico</label>
+                        <input type="checkbox" id="J-AM-6" name="taller" value="Venopuncion J-AM">
+                        <label for="J-AM-6" class="mx-2">Venopunción</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="J-AM-7" name="taller" value="Trauma Vascular J-AM">
+                        <label for="J-AM-7" class="mx-2">Trauma Vascular</label>
+                    </div>
+                </div>
+                <br>
+                <label for="talleres" style="font-weight: bold;">Jueves PM</label>
+
+                <div>
+                    <div>
+                        <input type="checkbox" id="J-PM-1" name="taller" value="Suturas Basicas J-PM">
+                        <label for="J-PM-1" class="mx-2">Suturas Básicas</label>
+                        <input type="checkbox" id="J-PM-2" name="taller" value="Trauma de torax J-PM">
+                        <label for="J-PM-2" class="mx-2">Trauma de tórax</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="J-PM-4" name="taller" value="Intubacion rapida J-PM">
+                        <label for="J-PM-4" class="mx-2">Intubación rápida</label>
+                        <input type="checkbox" id="J-PM-5" name="taller" value="RCP Basico J-PM">
+                        <label for="J-PM-5" class="mx-2">RCP Básico</label>
+                        <input type="checkbox" id="J-PM-6" name="taller" value="Venopuncion J-PM">
+                        <label for="J-PM-6" class="mx-2">Venopunción</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="J-PM-6" name="taller" value="Laparoscopia Basica J-PM">
+                        <label for="J-PM-6" class="mx-2">Laparoscopia Básica</label>
+                        <input type="checkbox" id="J-PM-3" name="taller" value="Inmovilizaciones J-PM">
+                        <label for="J-PM-3" class="mx-2">Inmovilizaciones</label>
+                    </div>
+                </div>
+                <br>
+
+                <label for="talleres" style="font-weight: bold;">Viernes AM</label>
+                <div>
+                    <div>
+                        <input type="checkbox" id="V-AM-1" name="taller" value="Suturas Avanzadas V-AM">
+                        <label for="V-AM-1" class="mx-2">Suturas Avanzadas</label>
+                        <input type="checkbox" id="V-AM-2" name="taller" value="Primeros Auxilios V-AM">
+                        <label for="J-AM-2" class="mx-2">Primeros Auxilios</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="V-AM-3" name="taller" value="Manejo del Paciente V-AM">
+                        <label for="V-AM-3" class="mx-2">Manejo del Paciente Politraumatizado</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="V-AM-4" name="taller" value="Cateterismo V-AM">
+                        <label for="V-AM-4" class="mx-2">Cateterismo</label>
+                        <input type="checkbox" id="V-AM-5" name="taller" value="Puncion Lumbar V-AM">
+                        <label for="V-AM-5" class="mx-2">Punción Lumbar</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="V-AM-6" name="taller" value="Venopuncion V-AM">
+                        <label for="V-AM-6" class="mx-2">Venopunción</label>
+                        <input type="checkbox" id="V-AM-7" name="taller" value="Electrocardiograma V-AM">
+                        <label for="V-AM-7" class="mx-2">Electrocardiograma</label>
+                    </div>
+                </div>
+                <br>
+
+                <label for="talleres" style="font-weight: bold;">Viernes PM</label>
+                <div>
+                    <div>
+                        <input type="checkbox" id="V-PM-1" name="taller" value="Trauma Abdomen V-PM">
+                        <label for="V-PM-1" class="mx-2">Trauma Abdomen</label>
+                        <input type="checkbox" id="V-PM-2" name="taller" value="Primeros Auxilios V-PM">
+                        <label for="J-PM-2" class="mx-2">Primeros Auxilios</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="V-PM-3" name="taller" value="Código Rojo Ginecologia V-PM">
+                        <label for="V-PM-3" class="mx-2">Código Rojo Ginecología</label>
+                        <input type="checkbox" id="V-PM-4" name="taller" value="Trauma Craneoencefalico V-PM">
+                        <label for="V-PM-4" class="mx-2">Trauma Craneoencefálico</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="V-PM-5" name="taller" value="Puncion Lumbar V-PM">
+                        <label for="V-PM-5" class="mx-2">Manejo Primario de Heridas</label>
+                        <input type="checkbox" id="V-PM-6" name="taller" value="Venopuncion V-PM">
+                        <label for="V-PM-6" class="mx-2">Venopunción</label>
+                    </div>
+                </div>
+                <br>
+
+                <div class="d-flex align-self-center w-50">
+                    <input type="submit" value="Enviar">
+                </div>
+              </form>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-success" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Asistencia registrada con éxito
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-warning" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Error al registrar la asistencia
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+          
 </body>
 </html>

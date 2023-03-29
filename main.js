@@ -1,5 +1,5 @@
 import { fotos1 } from "./fotos/fotos.js";
-import { API_KEY, CLIENT_ID, SPREADSHEET_ID, SCOPE } from "./modules/const.js";
+import { buscar, guardar } from "./modules/mongodb.js";
 
 const video = document.getElementById('video');
 let container = document.createElement('div');
@@ -11,6 +11,10 @@ const hora = document.getElementById('hora');
 const taller = document.getElementById('taller');
 const tomarAsistenciaButton = document.querySelector("#tomarAsistencia");
 const registrarAsistenciaButton = document.querySelector("#registrarAsistencia");
+const registrarEstudiante = document.querySelector('#registrarEstudiante');
+const mensajeSuccess = document.getElementById('mensaje-success');
+const mensajeWarning = document.getElementById('mensaje-warning');
+const formulario = document.getElementById("formulario")
 let datosAsistencia = {};
 
 Promise.all([
@@ -21,23 +25,36 @@ Promise.all([
 
 tomarAsistenciaButton.onclick = (event) => {
     event.preventDefault();
-    datosAsistencia = {};
     video.classList.remove("d-none");
 }
 
-registrarAsistenciaButton.onclick = (event) => {
+registrarEstudiante.onclick = (event) => {
     event.preventDefault();
+    formulario.classList.remove('d-none');
+}
 
-    const params = {
-        spreadSheetId: SPREADSHEET_ID,
-        range: "Hoja1",
-        valueInputOption: "USER_ENTERED",
-        insertDataOption: "INSERT_ROWS",
-    }
+registrarAsistenciaButton.onclick = async (event) => {
+    event.preventDefault();
+    const toastSuccess = bootstrap.Toast.getOrCreateInstance(mensajeSuccess);
+    const toastWarning = bootstrap.Toast.getOrCreateInstance(mensajeWarning);
+    const canva = document.getElementsByTagName("canvas");
+    const response = await guardar(datosAsistencia);
 
-    const valueRangeBody = {
-        majorDimension: "ROWS",
-        values: "hola",
+    video.classList.add("d-none");
+    registrar.classList.add("disabled");
+    canva[0].remove();
+    datosAsistencia = {};
+
+    nombre.innerText = "";
+    codigo.innerText = "";
+    documento.innerText = "";
+    hora.innerHTML = "";
+    taller.innerText = "";
+
+    if(response.status && response.status === "200"){
+        toastSuccess.show();
+    } else {
+        toastWarning.show();
     }
 }
 
@@ -57,14 +74,13 @@ function llenarDatos(user) {
     codigo.innerText = attendant.codigo;
     documento.innerText = attendant.nroDocumento;
     hora.innerHTML = tiempo;
-    taller.innerText = attendant.taller1;
+    taller.innerText = attendant.taller;
 
     datosAsistencia.nombre = attendant.nombre;
     datosAsistencia.codigo = attendant.codigo;
-    datosAsistencia.documento = attendant.nroDocumento;
-    datosAsistencia.hora = tiempo;
-    datosAsistencia.taller = attendant.taller1;
-
+    datosAsistencia.nroDocumento = attendant.nroDocumento;
+    datosAsistencia.tiempo = tiempo;
+    datosAsistencia.taller = attendant.taller;
 }
 
 async function startVideo(){
@@ -107,3 +123,11 @@ function loadLabeledImages() {
         })
     )
 }
+
+// const formulario = document.querySelector('form');
+// const formData = new FormData(formulario);
+
+// const nombre = formData.get('nombre');
+// const codigo = formData.get('codigo');
+// const documento = formData.get('documento');
+// const talleres = formData.getAll('taller');

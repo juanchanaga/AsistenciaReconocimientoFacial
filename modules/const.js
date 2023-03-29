@@ -1,7 +1,5 @@
-export const SPREADSHEET_ID = "1DbSDh_YtHuYI9C6OjPK0_0IquMZKZdbnjGV_YAHkNtU";
+export const URL_API_BUSCAR = 'https://data.mongodb-api.com/app/application-0-pmjhu/endpoint/getAsistente';
 
-export const CLIENT_ID = "689323130527-ji934gsp8dica1pmjcsfnqgdb4anack8.apps.googleusercontent.com";
+export const URL_API_SAVE = "https://data.mongodb-api.com/app/application-0-pmjhu/endpoint/guardarAsistencia";
 
-export const API_KEY = "AIzaSyB3tYM9_Jxen6DXOy-nfpEKQUv_omI4LL0";
-
-export const SCOPE = "https://www.googleapis.com/auth/spreadsheets";
+export const URL_API_GET_ALL = "https://data.mongodb-api.com/app/application-0-pmjhu/endpoint/getAll";
