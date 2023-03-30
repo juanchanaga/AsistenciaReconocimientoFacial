@@ -87,6 +87,7 @@
         <div style="text-align: center;">
             <button id="registrarAsistencia" class="mt-3 btn btn-success disabled mx-4">Registrar Asistencia</button>
             <button id="registrarEstudiante" class="mt-3 btn btn-secondary mx-4">Registrar Estudiante</button>
+            <button id="borrarDatos" class="mt-3 btn btn-danger mx-4 disabled">Borrar</button>
 
         </div>
 
@@ -97,13 +98,13 @@
         <div id="formulario" style="align-self: flex-start; width: 40%;" class="mt-5 pt-4 mx-5 d-none">
             <form id="formulario-registro" class="d-flex flex-column align-items-start">
                 <label for="nombre" style="font-weight: bold;">Nombre:</label>
-                <input style="width: 70%;" type="text" id="nombre" name="nombre">
+                <input style="width: 70%;" type="text" id="nombre" name="nombre" required>
               
                 <label for="codigo" style="font-weight: bold;">Código Estudiante:</label>
                 <input style="width: 70%;" type="text" id="codigo" name="codigo">
               
                 <label for="documento" style="font-weight: bold;">Número de Documento:</label>
-                <input style="width: 70%;" type="number" id="documento" name="documento"><br>
+                <input style="width: 70%;" type="number" id="documento" name="documento" required><br>
               
                 <label for="talleres" style="font-weight: bold;">Talleres</label><br>
 
@@ -208,8 +209,13 @@
                 </div>
                 <br>
 
-                <div class="d-flex align-self-center w-50">
+                <div class="d-flex align-self-center align-items-center w-50">
                     <input type="submit" value="Enviar">
+                    <button id="botonFoto" class="btn btn-secondary mx-4">Tomar Foto</button>
+                </div>
+                <div class="d-flex mt-2 align-self-center align-items-center position-relative">
+                    <video id="foto-video" width="320" height="240" class="position-relative" style="margin-right: 3rem;" autoplay></video>
+                    <canvas id="foto-canvas" width="320" height="240" class="position-relative position-absolute top-0 left-0"></canvas>
                 </div>
               </form>
         </div>
@@ -231,6 +237,66 @@
                 <div class="d-flex">
                     <div class="toast-body">
                         Error al registrar la asistencia
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-registro-success" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Estudiante registrado con éxito
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-registro-warning" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        El estudiante ya se encuentra registrado
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-guardar-warning" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Error al guardar los datos del estudiante
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-taller-warning" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Debe seleccionar al menos un taller
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="mensaje-foto-warning" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Debe tomarse la foto para el registro
                     </div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Close"></button>

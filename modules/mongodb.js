@@ -1,4 +1,4 @@
-import { URL_API_BUSCAR, URL_API_SAVE, URL_API_GET_ALL } from "./const.js";
+import { URL_API_BUSCAR, URL_API_SAVE, URL_API_GET_ALL, URL_API_SAVE_STUDENT } from "./const.js";
 
 export async function buscar(nroDocumento) {
 	return fetch(URL_API_BUSCAR, {
@@ -11,19 +11,26 @@ export async function buscar(nroDocumento) {
     })
 })
 .then(response => {
-
-    response.json()
-    .then(doc => {
-        return doc.json()
-    })
-    .catch(error => {
-        return error.json();
-    })
-    
+    return response.json();
 })
 .catch(error => {
-    return error.json();
-});
+    return error
+})
+}
+
+export async function getAll() {
+    return fetch(URL_API_GET_ALL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(error => {
+        return error
+    })
 }
 
 export async function guardar(datos) {
@@ -44,22 +51,29 @@ export async function guardar(datos) {
         return response.json();
     })
     .catch(error => {
-        return error.json()
+        return error
     })
 }
 
-export async function getAll() {
-    return fetch(URL_API_GET_ALL, {
-        method: 'GET',
+export async function guardarEstudiante(datos) {
+    return fetch(URL_API_SAVE_STUDENT, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({
+            "nombre": datos.nombre,
+            "nroDocumento": datos.nroDocumento,
+            "codigo": datos.codigo,
+            "taller": datos.taller,
+            "foto": datos.foto,
+        })
     })
     .then(response => {
         return response.json();
     })
     .catch(error => {
-        return error.json()
+        return error
     })
 }
+
