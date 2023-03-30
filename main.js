@@ -224,7 +224,6 @@ function loadLabeledImages() {
             const descriptions =[];
             const img = await faceapi.fetchImage(estudiante.foto);
             const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-            console.log(detections);
             if(detections && detections.descriptor){
                 descriptions.push(detections.descriptor);
             }
@@ -233,11 +232,3 @@ function loadLabeledImages() {
         })
     )
 }
-
-// const formulario = document.querySelector('form');
-// const formData = new FormData(formulario);
-
-// const nombre = formData.get('nombre');
-// const codigo = formData.get('codigo');
-// const documento = formData.get('documento');
-// const talleres = formData.getAll('taller');
